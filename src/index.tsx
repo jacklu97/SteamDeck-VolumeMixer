@@ -9,10 +9,12 @@ import {
   Router,
   ServerAPI,
   showContextMenu,
-  staticClasses,
 } from "decky-frontend-lib";
 import { VFC } from "react";
-import { FaShip } from "react-icons/fa";
+import { RxMixerVertical } from "react-icons/rx";
+
+import App from "./components/App/App";
+import Title from "./components/UI/Title";
 
 import logo from "../assets/logo.png";
 
@@ -42,7 +44,7 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({}) => {
       <PanelSectionRow>
         <ButtonItem
           layout="below"
-          onClick={(e) =>
+          onClick={(e: any) =>
             showContextMenu(
               <Menu label="Menu" cancelText="CAAAANCEL" onCancel={() => {}}>
                 <MenuItem onSelected={() => {}}>Item #1</MenuItem>
@@ -53,7 +55,7 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({}) => {
             )
           }
         >
-          Server says yolo
+          I'm Changing!
         </ButtonItem>
       </PanelSectionRow>
 
@@ -95,9 +97,10 @@ export default definePlugin((serverApi: ServerAPI) => {
   });
 
   return {
-    title: <div className={staticClasses.Title}>Example Plugin</div>,
-    content: <Content serverAPI={serverApi} />,
-    icon: <FaShip />,
+    title: <Title />,
+    // content: <Content serverAPI={serverApi} />,
+    content: <App />,
+    icon: <RxMixerVertical />,
     onDismount() {
       serverApi.routerHook.removeRoute("/decky-plugin-test");
     },
