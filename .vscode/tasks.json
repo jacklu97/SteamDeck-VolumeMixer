@@ -108,7 +108,7 @@
                 "buildall",
                 "deployall"
                 // Uncomment this line if you'd like your python code reloaded after deployment (this will restart Steam)
-                // ,"restartloader"
+                ,"restartloader"
             ],
             "problemMatcher": []
         }
