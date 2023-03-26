@@ -1,0 +1,41 @@
+import subprocess
+
+# Ejecutar el comando pactl list sink-inputs y capturar la salida
+output = subprocess.check_output(["pactl", "list", "sink-inputs"]).decode()
+
+# Buscar las líneas que contienen la información de la aplicación
+app_lines = [line.strip() for line in output.splitlines() if "application.name" in line]
+
+# Imprimir el nombre de la aplicación para cada línea encontrada
+app_names = []
+for app_line in app_lines:
+    app_name = app_line.split("=")[1].strip()
+    print(app_name)
+    # Los nombres se encontrarán en minusculas, es mejor manejarlos así
+    app_names.append(str(app_name).lower().strip())
+
+
+# Página de la librería
+import pulsectl
+
+# Conectar al servidor de sonido PulseAudio
+pulse = pulsectl.Pulse('my-client-name')
+
+# Obtener el objeto de control de volumen para la aplicación
+sink_input_list = pulse.sink_input_list()
+for i in sink_input_list:
+    # El listado arroja los nombres usando codificacion por lo que hay que hacer un cast
+    if str(i.proplist.get('application.process.binary')) == 'firefox':
+        sink_input = pulse.sink_input_info(i.index)
+        volume = sink_input.volume
+        break
+    else:
+        print("No es lo mismo")
+
+# Obtener el volumen actual
+current_volume = volume.value_flat
+
+# Establecer el volumen al porcentaje deseado
+new_volume_val = float(1 * 1)
+new_volume = pulsectl.PulseVolumeInfo(new_volume_val, len(volume.values))
+pulse.volume_set(sink_input, new_volume)
