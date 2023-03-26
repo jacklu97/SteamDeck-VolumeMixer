@@ -39,3 +39,17 @@ current_volume = volume.value_flat
 new_volume_val = float(1 * 1)
 new_volume = pulsectl.PulseVolumeInfo(new_volume_val, len(volume.values))
 pulse.volume_set(sink_input, new_volume)
+
+# SteamOS parece usar pipewire por defecto
+import pwclient
+
+# Conectar con el daemon de PipeWire
+client = pwclient.Client()
+
+# Obtener el volumen actual de la salida predeterminada
+volume_info = client.get_volume('default')
+current_volume = volume_info.values[0]
+
+# Establecer un nuevo volumen
+new_volume = current_volume - 0.1  # Reducir el volumen en un 10%
+client.set_volume('default', new_volume)
