@@ -1,11 +1,11 @@
 import { PanelSectionRow, SliderField } from "decky-frontend-lib";
-import { useState } from "react";
+import { useState, VFC } from "react";
 
 interface VolumeProps {
   sourceName: string
 }
 
-const VolumeControl = ({sourceName}: VolumeProps) => {
+const VolumeControl: VFC<VolumeProps> = ({sourceName}: VolumeProps) => {
   /**
    * TODO: Remove this temporary state to use reducer approach
    */

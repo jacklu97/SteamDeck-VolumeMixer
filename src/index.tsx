@@ -17,6 +17,7 @@ import App from "./components/App/App";
 import Title from "./components/UI/Title";
 
 import logo from "../assets/logo.png";
+import PythonServer from "./services/pythonServer";
 
 // interface AddMethodArgs {
 //   left: number;
@@ -92,6 +93,8 @@ const DeckyPluginRouterTest: VFC = () => {
 };
 
 export default definePlugin((serverApi: ServerAPI) => {
+  PythonServer.getInstance().setServer(serverApi)
+  
   serverApi.routerHook.addRoute("/decky-plugin-test", DeckyPluginRouterTest, {
     exact: true,
   });
