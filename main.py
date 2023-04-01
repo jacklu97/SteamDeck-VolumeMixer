@@ -3,7 +3,7 @@
 import asyncio
 import logging
 import os
-import subprocess
+import re
 from typing import List
 
 from settings import SettingsManager # type: ignore
@@ -47,6 +47,32 @@ class Plugin:
         logging.info(f'Returncode: {proc.returncode}\nSTDOUT: {stdout[:300]}\nSTDERR: {stderr[:300]}')
         return {'returncode': proc.returncode, 'stdout': stdout, 'stderr': stderr}
     
+    async def extract_program_data(self, output: str):
+        output_arr = []
+
+        # Extract the sink input ID
+        id_regex = r"Sink Input #(\d+)"
+        ids = re.findall(id_regex, output)
+
+        # Extract the application name
+        app_regex = r"application.name = \"(.*?)\""
+        apps = re.findall(app_regex, output, re.DOTALL)
+
+        # Extract the volume percentage
+        vol_regex = r"Volume:\s+.*?(\d+)%\s"
+        volumes = re.findall(vol_regex, output, re.DOTALL)
+
+        # Set the values into a dict
+        for i in range(len(ids)):
+            input = {
+                'applicationId' : ids[i],
+                'applicationName' : apps[i],
+                'currentVolume' : int(volumes[i])
+            }
+            output_arr.append(input)
+
+        return output_arr
+    
     async def mm_get_programs_names(self):
         logger.info('Getting a list of all running processes using audio interface')
         cmd = "pactl list sink-inputs"
@@ -56,9 +82,8 @@ class Plugin:
             logging.info("There was an error on the excecution!")
             return []
         
-        inputs = [line.strip() for line in proc['stdout'].splitlines() if 'application.name' in line]
-        process_names = [input.split('"')[1] for input in inputs]
-
+        process_names = await self.extract_program_data(self, proc['stdout'])
+        logger.info(f"Returning to client: {process_names}")
         return process_names
 
     # Asyncio-compatible long-running code, executed in a task when the plugin is loaded
