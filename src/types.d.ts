@@ -12,3 +12,10 @@ declare module "*.jpg" {
   const content: string;
   export default content;
 }
+
+
+declare interface Player {
+  applicationId: number,
+  applicationName: string,
+  currentVolume: number
+}

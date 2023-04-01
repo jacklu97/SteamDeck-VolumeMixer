@@ -3,13 +3,16 @@ import { useState, VFC } from "react";
 
 interface VolumeProps {
   sourceName: string
+  currentVolume: number
 }
 
-const VolumeControl: VFC<VolumeProps> = ({sourceName}: VolumeProps) => {
+const VolumeControl: VFC<VolumeProps> = ({sourceName, currentVolume}: VolumeProps) => {
   /**
    * TODO: Remove this temporary state to use reducer approach
    */
-  const [volumeValue, setVolumeValue] = useState(100)
+  const [volumeValue, setVolumeValue] = useState(currentVolume)
+
+  const fixedSourceName = sourceName.charAt(0).toUpperCase() + sourceName.slice(1)
 
   const volumeChangeHandler = (newVal: number) => {
     setVolumeValue(newVal)
@@ -18,7 +21,7 @@ const VolumeControl: VFC<VolumeProps> = ({sourceName}: VolumeProps) => {
   return (
     <div>
       <div>
-        {sourceName}
+        {fixedSourceName}
       </div>
       <PanelSectionRow>
         <SliderField
