@@ -1,32 +1,27 @@
 import subprocess
+import re
 import os
 
-# # Ejecutar el comando pactl list sink-inputs y capturar la salida
-# output = subprocess.check_output(["pactl", "list", "sink-inputs"]).decode()
-
-# # Buscar las líneas que contienen la información de la aplicación
-# app_lines = [line.strip() for line in output.splitlines() if "application.name" in line]
-
-# # Imprimir el nombre de la aplicación para cada línea encontrada
-# app_names = []
-# for app_line in app_lines:
-#     app_name = app_line.split("=")[1].strip()
-#     print(app_name)
-#     # Los nombres se encontrarán en minusculas, es mejor manejarlos así
-#     app_names.append(str(app_name).lower().strip())
-
-
-
-# Prueba del comando pactl usando otro método
-# output = subprocess.Popen(f"pactl list sink-inputs", stdout=subprocess.PIPE, shell=True, env=self._get_dbus_env(self), universal_newlines=True).communicate()[0])
-def _get_dbus_env():
-    env = os.environ.copy()
-    env["DBUS_SESSION_BUS_ADDRESS"] = f'unix:path=/run/user/{os.getuid()}/bus'
-    return env
-
-
-output = subprocess.Popen(f"pactl list sink-inputs", stdout=subprocess.PIPE, shell=True, env=_get_dbus_env(), universal_newlines=True).communicate()[0]
+command = "pactl list sink-inputs"
+output = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True, universal_newlines=True).communicate()[0]
 print(output)
+
+# Extract the sink input ID
+id_regex = r"Sink Input #(\d+)"
+ids = re.findall(id_regex, output)
+
+# Extract the application name
+app_regex = r"application.name = \"(.*?)\""
+apps = re.findall(app_regex, output, re.DOTALL)
+
+# Extract the volume percentage
+vol_regex = r"Volume:\s+.*?(\d+)%\s"
+volumes = re.findall(vol_regex, output, re.DOTALL)
+
+# Print the sink input ID, application name, and volume for each audio stream
+for i in range(len(ids)):
+    print(f"Sink Input ID: {ids[i]}, Application Name: {apps[i]}, Volume: {volumes[i]}%")
+
 # Buscar las líneas que contienen la información de la aplicación
 # app_lines = [line.strip() for line in output.splitlines() if "application.name" in line]
 
@@ -66,15 +61,5 @@ print(output)
 # pulse.volume_set(sink_input, new_volume)
 
 # # SteamOS parece usar pipewire por defecto
-# import pwclient
+# import pulsemixer
 
-# # Conectar con el daemon de PipeWire
-# client = pwclient.Client()
-
-# # Obtener el volumen actual de la salida predeterminada
-# volume_info = client.get_volume('default')
-# current_volume = volume_info.values[0]
-
-# # Establecer un nuevo volumen
-# new_volume = current_volume - 0.1  # Reducir el volumen en un 10%
-# client.set_volume('default', new_volume)
