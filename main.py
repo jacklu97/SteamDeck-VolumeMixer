@@ -65,7 +65,7 @@ class Plugin:
         # Set the values into a dict
         for i in range(len(ids)):
             input = {
-                'applicationId' : ids[i],
+                'applicationId' : int(ids[i]),
                 'applicationName' : apps[i],
                 'currentVolume' : int(volumes[i])
             }
@@ -73,6 +73,15 @@ class Plugin:
 
         return output_arr
     
+    async def mm_update_current_volume(self, player_id: str, new_volume: int):
+        logger.info(f"Updating volume of app: {player_id} with value: {new_volume}")
+        cmd = f"pactl set-sink-input-volume {player_id} {new_volume}%"
+        proc = await self.pyexec_subprocess(self, cmd)
+
+        if (proc['returncode'] != 0):
+            logger.info(f"There was an error updating the volume of {player_id} to {new_volume}")
+            return -1
+        
     async def mm_get_programs_names(self):
         logger.info('Getting a list of all running processes using audio interface')
         cmd = "pactl list sink-inputs"
