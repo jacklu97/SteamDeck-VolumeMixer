@@ -1,12 +1,14 @@
 import { PanelSectionRow, SliderField } from "decky-frontend-lib";
 import { useState, VFC } from "react";
+import PythonServer from "../../services/pythonServer";
 
 interface VolumeProps {
+  sourceId: number
   sourceName: string
   currentVolume: number
 }
 
-const VolumeControl: VFC<VolumeProps> = ({sourceName, currentVolume}: VolumeProps) => {
+const VolumeControl: VFC<VolumeProps> = ({sourceName, currentVolume, sourceId}: VolumeProps) => {
   /**
    * TODO: Remove this temporary state to use reducer approach
    */
@@ -16,6 +18,12 @@ const VolumeControl: VFC<VolumeProps> = ({sourceName, currentVolume}: VolumeProp
 
   const volumeChangeHandler = (newVal: number) => {
     setVolumeValue(newVal)
+    
+    const server = PythonServer.getInstance()
+    
+    server.resolve(server.setNewVolume(sourceId, newVal), () => {
+      
+    })
   }
 
   return (

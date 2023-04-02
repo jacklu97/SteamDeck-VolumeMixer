@@ -38,6 +38,10 @@ class PythonServer {
     return this.server!.callPluginMethod('mm_get_programs_names', {})
   }
 
+  setNewVolume(playerId: number, newVolumeVal: number): Promise<any> {
+    return this.server!.callPluginMethod('mm_update_current_volume', {player_id: playerId, new_volume: newVolumeVal})
+  }
+
 }
 
 export default PythonServer
