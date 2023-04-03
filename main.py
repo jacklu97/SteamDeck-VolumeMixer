@@ -103,6 +103,8 @@ class Plugin:
         if (proc['returncode'] != 0):
             logging.info("There was an error toggling the mute status")
             return -1
+        
+        return await self.mm_get_mute_status(self)
     
     async def mm_get_mute_status(self):
         logger.info("Getting current mute status")

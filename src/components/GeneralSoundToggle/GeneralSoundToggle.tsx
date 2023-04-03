@@ -10,7 +10,7 @@ const GeneralSoundToggle = () => {
   const server = PythonServer.getInstance()
 
   const handleToggle = () => {
-    server.resolve(server.toggleMuteStatus(), () => setIsMuted(prev => !prev))
+    server.resolve(server.toggleMuteStatus(), (muteStatus: MuteStatusResponse) => setIsMuted(muteStatus.isMuted))
   }
 
   const getCurrentMuteStatus = (): Promise<MuteStatusResponse> => {
