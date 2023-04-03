@@ -22,7 +22,7 @@ class PythonServer {
     return this.server
   }
 
-  resolve(promise: Promise<any>, setter: any) {
+  resolve(promise: Promise<any>, setter?: any) {
     (async function () {
       const data = await promise;
       if (data.success) {
