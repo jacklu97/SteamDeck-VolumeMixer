@@ -42,6 +42,14 @@ class PythonServer {
     return this.server!.callPluginMethod('mm_update_current_volume', {player_id: playerId, new_volume: newVolumeVal})
   }
 
+  toggleMuteStatus(): Promise<any> {
+    return this.server!.callPluginMethod('mm_toggle_mute_system', {})
+  }
+
+  getMuteStatus(): Promise<any> {
+    return this.server!.callPluginMethod('mm_get_mute_status', {})
+  }
+
 }
 
 export default PythonServer
