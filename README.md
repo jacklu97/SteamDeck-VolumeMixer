@@ -25,18 +25,6 @@ pnpm run build
 
 To transfer this plugin to the deck you can run the vscode tasks that are configured to deploy it to your deck, checkout .vscode folder for reference.
 
-### Making your own plugin
-
-1. You can fork this repo or utilize the "Use this template" button on Github.
-2. In your local fork/own plugin-repository run these commands:
-   1. ``pnpm i``
-   2. ``pnpm run build``
-   - These setup pnpm and build the frontend code for testing.
-3. Consult the [decky-frontend-lib](https://github.com/SteamDeckHomebrew/decky-frontend-lib) repository for ways to accomplish your tasks.
-   - Documentation and examples are still rough, 
-   - While decky-loader primarily targets Steam Deck hardware so keep this in mind when developing your plugin.
-4. If you want an all encompassing demonstration of decky-frontend-lib's capabilities check out [decky-playground](https://github.com/SteamDeckHomebrew/decky-playground). It shows off almost all of decky-frontend-lib's features.
-
 #### Other important information
 
 Everytime you change the frontend code (`index.tsx` etc) you will need to rebuild using the commands from step 2 above or the build task if you're using vscode or a derivative.
