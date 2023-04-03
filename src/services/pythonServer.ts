@@ -1,4 +1,4 @@
-import { ServerAPI, ServerResponse } from "decky-frontend-lib"
+import { ServerAPI } from "decky-frontend-lib"
 
 class PythonServer {
   private static instance: PythonServer
