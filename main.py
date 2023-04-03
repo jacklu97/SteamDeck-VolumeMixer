@@ -1,12 +1,10 @@
 # Special thanks to jurassicplayer.
 
 import asyncio
-import json
 import logging
 import os
 import re
 
-from settings import SettingsManager # type: ignore
 from helpers import get_user_id # type: ignore
 
 # The decky plugin module is located at decky-loader/plugin
