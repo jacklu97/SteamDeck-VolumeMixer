@@ -1,10 +1,10 @@
 {
   "name": "Music Mixer",
-  "author": "John Doe",
-  "flags": ["debug", "_root"],
+  "author": "Luis Hernández",
+  "flags": [],
   "publish": {
-    "tags": ["template", "root"],
-    "description": "Decky example plugin.",
+    "tags": ["mixer", "audio", "control"],
+    "description": "Control the sound level of any running app on the steam deck individually.",
     "image": "https://opengraph.githubassets.com/1/SteamDeckHomebrew/PluginLoader"
   }
 }
