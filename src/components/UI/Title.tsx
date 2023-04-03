@@ -4,7 +4,7 @@ import { staticClasses } from "decky-frontend-lib";
 const Title: VFC = () => {
   return (
     <div className={staticClasses.Title}>
-      Music Mixer
+      Volume Mixer
     </div>
   );
 }
