@@ -1,10 +1,10 @@
 # Special thanks to jurassicplayer.
 
 import asyncio
+import json
 import logging
 import os
 import re
-from typing import List
 
 from settings import SettingsManager # type: ignore
 from helpers import get_user_id # type: ignore
@@ -94,6 +94,36 @@ class Plugin:
         process_names = await self.extract_program_data(self, proc['stdout'])
         logger.info(f"Returning to client: {process_names}")
         return process_names
+    
+    async def mm_toggle_mute_system(self):
+        logger.info("Toggling mute state")
+        cmd = "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+        proc = await self.pyexec_subprocess(self, cmd)
+
+        if (proc['returncode'] != 0):
+            logging.info("There was an error toggling the mute status")
+            return -1
+    
+    async def mm_get_mute_status(self):
+        logger.info("Getting current mute status")
+        cmd = "pactl list sinks | grep -A 10 'State:.*RUNNING' | grep 'Mute:'"
+        proc = await self.pyexec_subprocess(self, cmd)
+
+        if (proc['returncode'] != 0):
+            logger.info("There was an error getting the current status of mute")
+            return -1
+        
+        # will get a 'no' or 'yes' from cmd
+        try:
+            is_muted = True if 'yes' == [i for i in re.sub(r'[\t\n]', '', proc["stdout"]).split("Mute: ")][-1] else False 
+            response = {
+                "isMuted" : is_muted
+            }
+
+            logger.info(f"Returning current mute state: {response}")
+            return response
+        except Exception as e:
+            logger.info(f"There was an exception sending the response \n {e}")
 
     # Asyncio-compatible long-running code, executed in a task when the plugin is loaded
     async def _main(self):
