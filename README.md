@@ -2,6 +2,8 @@
 
 A [decky-loader](https://github.com/SteamDeckHomebrew/decky-loader) plugin that allows the user to control the volume of any running program on the steam deck individually. Inspired on the functionality of Windows' Volume Mixer.
 
+![volume mixer screen shot](/assets/Volume-mixer-screenshot.jpeg)
+
 ## Dependencies
 
 This plugin was created using the [decky-plugin-template](https://github.com/SteamDeckHomebrew/decky-plugin-template) and uses its dependencies. 
