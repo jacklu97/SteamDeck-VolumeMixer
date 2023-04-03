@@ -8,7 +8,7 @@ interface VolumeProps {
   currentVolume: number
 }
 
-const VolumeControl: VFC<VolumeProps> = ({sourceName, currentVolume, sourceId}: VolumeProps) => {
+const VolumeControl: VFC<VolumeProps> = ({ sourceName, currentVolume, sourceId }: VolumeProps) => {
   /**
    * TODO: Remove this temporary state to use reducer approach
    */
@@ -18,29 +18,24 @@ const VolumeControl: VFC<VolumeProps> = ({sourceName, currentVolume, sourceId}: 
 
   const volumeChangeHandler = (newVal: number) => {
     setVolumeValue(newVal)
-    
+
     const server = PythonServer.getInstance()
-    
-    server.resolve(server.setNewVolume(sourceId, newVal), () => {
-      
-    })
+
+    server.resolve(server.setNewVolume(sourceId, newVal))
   }
 
   return (
-    <div>
-      <div>
-        {fixedSourceName}
-      </div>
-      <PanelSectionRow>
-        <SliderField
-          value={volumeValue}
-          min={0}
-          max={100}
-          step={1}
-          onChange={volumeChangeHandler}
-        />
-      </PanelSectionRow>
-    </div>
+    <PanelSectionRow>
+      <SliderField
+        label={fixedSourceName}
+        value={volumeValue}
+        min={0}
+        max={100}
+        step={1}
+        onChange={volumeChangeHandler}
+        showValue
+      />
+    </PanelSectionRow>
   );
 }
 
