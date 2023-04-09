@@ -1,17 +1,15 @@
-import { VFC } from "react";
-import { PanelSection, staticClasses } from "decky-frontend-lib";
+import React, { VFC } from "react";
 
 import AvailableSources from "../AvailableSources/AvailableSources";
+import GeneralSoundToggle from "../GeneralSoundToggle/GeneralSoundToggle";
 
 
 const App: VFC = () => {
   return (
-    <PanelSection>
-      <div className={staticClasses.PanelSectionTitle}>
-        {/* Music Mixer */}
-      </div>
+    <>
+      <GeneralSoundToggle />
       <AvailableSources />
-    </PanelSection>
+    </>
   );
 }
 

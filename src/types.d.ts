@@ -19,3 +19,7 @@ declare interface Player {
   applicationName: string,
   currentVolume: number
 }
+
+declare interface MuteStatusResponse {
+  isMuted: boolean
+}

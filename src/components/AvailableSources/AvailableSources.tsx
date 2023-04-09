@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState } from "react";
 
-import { Spinner } from "decky-frontend-lib";
+import { PanelSection, Spinner } from "decky-frontend-lib";
 
 import PythonServer from "../../services/pythonServer";
 import VolumeControl from "../UI/VolumeControl";
@@ -38,9 +38,9 @@ const AvailableSources = () => {
   }
 
   return (
-    <div>
+    <PanelSection title="List of applications">
       {content}
-    </div>
+    </PanelSection>
   );
 }
 

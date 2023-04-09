@@ -1,4 +1,4 @@
-import { ServerAPI, ServerResponse } from "decky-frontend-lib"
+import { ServerAPI } from "decky-frontend-lib"
 
 class PythonServer {
   private static instance: PythonServer
@@ -22,7 +22,7 @@ class PythonServer {
     return this.server
   }
 
-  resolve(promise: Promise<any>, setter: any) {
+  resolve(promise: Promise<any>, setter?: any) {
     (async function () {
       const data = await promise;
       if (data.success) {
@@ -40,6 +40,14 @@ class PythonServer {
 
   setNewVolume(playerId: number, newVolumeVal: number): Promise<any> {
     return this.server!.callPluginMethod('mm_update_current_volume', {player_id: playerId, new_volume: newVolumeVal})
+  }
+
+  toggleMuteStatus(): Promise<any> {
+    return this.server!.callPluginMethod('mm_toggle_mute_system', {})
+  }
+
+  getMuteStatus(): Promise<any> {
+    return this.server!.callPluginMethod('mm_get_mute_status', {})
   }
 
 }
